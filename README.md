@@ -1,74 +1,92 @@
 # E-commerce Product Description Generator
 
-A chatbot that generates professional e-commerce product descriptions using Hugging Face Inference API with Mistral-7B.
+An AI-powered tool to generate professional product descriptions for e-commerce.
 
 ## Features
 
-- **Product Description Generation**: Create compelling descriptions from basic product information
-- **Description Improvement**: Enhance existing descriptions for better engagement
-- **SEO Optimization**: Generate keywords, meta titles, and descriptions
-- **Multi-language Support**: Translate and culturally adapt descriptions across 7 languages
+- 🎯 Generate product descriptions with AI
+- ✨ Improve existing descriptions
+- 🔍 SEO keyword analysis
+- 🌍 Multi-language translation
+- 🔄 Generate multiple variants
 
-## Supported Languages
+## Architecture
 
-- French, English, Spanish, German, Italian, Portuguese, Dutch
+- **Frontend**: React + TypeScript
+- **Backend**: FastAPI + Python
+- **AI Model**: Qwen2.5-7B via Hugging Face Inference API
+- **Deployment**: Docker (single deployment)
 
-## Installation
+## Deployment on Hugging Face Spaces
+
+1. Create a new Space on Hugging Face
+2. Select **Docker** as the SDK
+3. Upload the following files/folders:
+   - `frontend/` (React app)
+   - `backend/` (FastAPI server)
+   - `Dockerfile`
+   - `nginx.conf`
+   - `.dockerignore`
+4. Add your `HF_API_TOKEN` as a secret in Space settings
+5. Deploy!
+
+## Local Development
+
+### Backend API
 
 ```bash
-# Clone the repository
-git clone https://github.com/yourusername/ecommerce-product-description-llm.git
-cd ecommerce-product-description-llm
-
-# Create virtual environment (recommended)
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
+cd backend
 pip install -r requirements.txt
+uvicorn main:app --reload
 ```
 
-## Configuration
+API will be available at: http://localhost:8000
 
-1. Get your Hugging Face API token from https://huggingface.co/settings/tokens
-2. Create a `.env` file in the project root:
+API Documentation: http://localhost:8000/docs
+
+### Frontend
 
 ```bash
-cp .env.example .env
+cd frontend
+npm install
+npm start
 ```
 
-3. Edit `.env` and add your token:
+Frontend will be available at: http://localhost:3000
 
-```
-HF_API_TOKEN=your_huggingface_token_here
-```
-
-## Usage
+### Full Docker Build (Production)
 
 ```bash
-python app.py
+docker build -t ecommerce-desc-gen .
+docker run -p 7860:7860 -e HF_API_TOKEN=your_token ecommerce-desc-gen
 ```
 
-The application will start and open in your browser at `http://localhost:7860`.
+Application will be available at: http://localhost:7860
 
-## Interface Tabs
+## Environment Variables
 
-### 1. Generate Description
-Enter product details (name, category, features, target audience) and get a professional description.
+- `HF_API_TOKEN`: Your Hugging Face API token (required)
 
-### 2. Improve Description
-Paste an existing description and select improvement areas (clarity, persuasion, SEO, etc.).
+## API Endpoints
 
-### 3. SEO & Keywords
-Get keyword suggestions, meta titles, and SEO recommendations for your products.
+- `POST /api/generate` - Generate product description
+- `POST /api/improve` - Improve existing description
+- `POST /api/seo` - Generate SEO keywords
+- `POST /api/translate` - Translate description
+- `GET /health` - Health check
 
-### 4. Multi-language
-Translate descriptions with optional cultural adaptation for target markets.
+## Tech Stack
 
-## Model
+- React 18 + TypeScript
+- FastAPI
+- Hugging Face Inference API
+- Nginx (reverse proxy)
+- Docker
 
-This application uses **Mistral-7B-Instruct-v0.2** via Hugging Face Inference API, known for excellent multilingual support and high-quality text generation.
+## Credits
+
+Made with ❤️ by [Dayende](https://www.linkedin.com/in/ibrahimdayende)
 
 ## License
 
-MIT License
+MIT
